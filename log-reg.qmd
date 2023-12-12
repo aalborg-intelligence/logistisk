@@ -1,8 +1,31 @@
 ---
-title: "log-reg"
-output:
-  html_document: default
-date: "2023-12-08"
+title: "Logistisk regression"
+author: 'Aalborg Intelligence'
+image: "images/logit.png"
+date: ''
+format:
+    html: 
+      self-contained: true
+      toc: true
+      toc-title: Indhold
+      toc-location: left
+      related-formats-title: "Andre formater"
+    pdf: default
+reference-location: margin
+editor_options: 
+  chunk_output_type: console
+crossref:
+  fig-prefix: figur   # (default is "Figure")
+  tbl-prefix: tabel    # (default is "Table")
+  exm-prefix: eksempel
+  eq-prefix: ''
+  fig-title: Figur
+  exm-title: Eksempel
+  tbl-title: Tabel
+label:
+    fig: Figur
+title-block-author-single: "Forfatter"
+fig-cap-location: margin
 ---
 
 ```{r setup, include=FALSE}
