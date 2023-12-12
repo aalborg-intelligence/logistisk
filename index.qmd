@@ -1,0 +1,5 @@
+# Logistisk klassifikation/regression
+
+- [Logistisk klassifikation](logklas.qmd)
+- [Logistisk regression](log-reg.qmd)
+
