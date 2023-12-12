@@ -327,7 +327,7 @@ Bemærk, at sandsynligheden for vores udfald $y_1,\ldots,y_n$ afhænger af $a$ o
 $$
 L(a,b) = p_1(a,b) \cdot p_2(a,b)\cdot \dotsm \cdot p_n(a,b).
 $$
-Denne funktion kaldes likelihoodfunktionen. Idéen med maksimum likelihood metoden er at vælge de værdier af $a$ og $b$, der gør sandsynligheden $L(a,b)$ for det vi har observeret så stor som muligt. Vi søger altså de $a$ og $b$, der maksimerer funktionen $L(a,b)$. Dette maksimum kan ikke udregnes eksakt. I stedet kan man bruge numeriske metoder, fx gradient descent, som I kan læse mere om her... \am{link til note}
+Denne funktion kaldes likelihoodfunktionen. Idéen med maksimum likelihood metoden er at vælge de værdier af $a$ og $b$, der gør sandsynligheden $L(a,b)$ for det vi har observeret så stor som muligt. Vi søger altså de $a$ og $b$, der maksimerer funktionen $L(a,b)$. Dette maksimum kan ikke udregnes eksakt. I stedet kan man bruge numeriske metoder, fx gradient descent, som I kan læse mere om her... **link til note**
  
  Finder man $a$ og $b$ ved hjælp af maksimum likelihood metoden i vores dataeksempel, fås funktionen 
 $$
