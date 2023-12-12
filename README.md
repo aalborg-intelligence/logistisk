@@ -1,0 +1,2 @@
+# logistisk
+Logistisk klassifikation
