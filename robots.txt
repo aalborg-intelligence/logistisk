@@ -1,1 +1,1 @@
-Sitemap: https://github.com/aalborg-intelligence/logistisk/sitemap.xml
+Sitemap: https://aalborg-intelligence.github.io/logistisk/sitemap.xml
