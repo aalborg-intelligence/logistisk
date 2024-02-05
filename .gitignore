@@ -56,3 +56,7 @@ rsconnect/
 
 # Temp. files folders
 *_files/
+
+/.quarto/
+
+_site/
