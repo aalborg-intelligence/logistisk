@@ -35,7 +35,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## Logistisk regression
 
-I det følgende skal vi se på logistisk regression. Måske har du allerede hørt begrebet logistisk regression i gymnasieundervisningen i forbindelse med logistisk vækst. Dette er en anden type af logistisk regression end den, der behandles i denne note. I slutningen af noten vil vi dog se et eksempel, hvor der alligevel er en sammenhæng mellem logistisk regression og logistisk vækst.
+I det følgende skal vi se på logistisk regression. Måske har du allerede hørt begrebet logistisk regression **ME: Eller *du har måske hørt begrebet \"logistisk\" * ** i gymnasieundervisningen i forbindelse med logistisk vækst. Dette er en anden type af logistisk regression end den, der behandles i denne note. I slutningen af noten vil vi dog se et eksempel, hvor der alligevel er en sammenhæng mellem logistisk regression og logistisk vækst.
 
 Logistisk regression, i den betydning vi kigger på i denne note, bruges, når man gerne vil modellere, hvordan en  sandsynlighed afhænger af en anden variabel. Som et eksempel forestiller vi os, at vi er interesserede i, hvordan sandsynligheden for at lide af hjerte-kar-sygdom afhænger af det systoliske blodtryk.  
 
@@ -44,7 +44,7 @@ Vi vil kigge på et datasæt bestående af 2000 mennesker, som har fået målt d
 [^1]: De fleste mennesker har et systolisk blodtryk  mellem 100 og 180 mmHg. I datasættet har vi genereret en masse mennesker med ekstremt højt eller lavt blodtryk for illustrationens skyld, selv om det er urealistisk i praksis.
 
 ```{r echo=FALSE}
-#| fig-cap: Her ses et plot af data med blodtryk på x-aksen og sygdomsstatus på y-aksen.
+#| fig-cap: Her ses et plot af data med blodtryk på $x$-aksen og sygdomsstatus på $y$-aksen.
 #| label: fig-data
 set.seed(1)
 x<-runif(2000,80,300)
@@ -84,10 +84,10 @@ odds<-tab/(100-tab)
 plot(c(87.5,112.5,137.5,162.5,187.5,212.5,237.5,262.5,287.5),tab/100,ylim=c(0,1),pch=16,xlab="blodtryk",ylab="p",xlim=c(70,320),xaxt="n")
 axis(1,at=c(75,100,125,150,175,200,225,250,275,300) )
 ```
-
+**ME: For meget luft om figur**
 
 ```{r echo=FALSE}
-#| fig-cap: Andel syge inden for hvert blodtryksinterval
+#| fig-cap: Andel syge inden for hvert blodtryksinterval.
 #| label: fig-p-plot
 plot(c(87.5,112.5,137.5,162.5,187.5,212.5,237.5,262.5,287.5),tab/100,ylim=c(0,1),pch=16,xlab="Blodtryk",ylab="p",xlim=c(70,320),xaxt="n")
 axis(1,at=c(75,100,125,150,175,200,225,250,275,300) )
@@ -101,7 +101,7 @@ $$
 På @fig-linear har vi indtegnet den bedste rette linje i @fig-p-plot.
 
 ```{r echo=FALSE}
-#| fig-cap: Grafen for p(x) tilnærmet med en ret linje
+#| fig-cap: Grafen for p(x) tilnærmet med en ret linje.
 #| label: fig-linear
 plot(c(87.5,112.5,137.5,162.5,187.5,212.5,237.5,262.5,287.5),tab/100,ylim=c(0,1),pch=16,xlab="Blodtryk",ylab="p",xlim=c(70,320),xaxt="n")
 abline(-0.341213 + 12.5*0.004409 ,0.004409 )
@@ -113,7 +113,7 @@ Der er et problem her: En sandsynlighed ligger altid mellem 0 og 1, men regressi
 Hvis vi kigger på @fig-linear igen, ser sammenhængen da heller ikke lineær ud, men snarere S-formet. I stedet for en ret linje, ville det give mening at lade $p$ være en funktion med en S-formet graf som indtegnet i @fig-S. 
 
 ```{r echo=FALSE}
-#| fig-cap: Graf for p(x) tilnærmet med en S-formet kurve
+#| fig-cap: Graf for p(x) tilnærmet med en S-formet kurve.
 #| label: fig-S
 plot(c(87.5,112.5,137.5,162.5,187.5,212.5,237.5,262.5,287.5),tab/100,ylim=c(0,1),pch=16,xlab="blodtryk",ylab="p",xlim=c(70,320),xaxt="n")
 lines(70:300,p(70:300))
@@ -123,11 +123,11 @@ axis(1,at=c(75,100,125,150,175,200,225,250,275,300) )
 ## Odds
 
 For at komme nærmere hvordan funktionsforskriften for $p$ skal se ud, kigger vi på *oddsene* for sygdom i stedet for sandsynligheden[^2].
-Oddsene $O$ for en hændelse er defineret som sandsynligheden $p$ for hændelsen divideret med sandsynligheden for komplementærhændelsen, som er $1-p$. Altså er
+Oddsene $O$ for en hændelse er defineret som sandsynligheden $p$ for hændelsen divideret med sandsynligheden for, at hændelsen *ikke* indtræffer (det kaldes også for komplementærhændelsen), som er $1-p$. Altså er
 $$
 	O=\frac{p}{1-p}.
 $$
-Odds måler således, hvor mange gange mere sandsynlig en hændelsen er i forhold til komplementærhændelsen. Hvis fx sandsynligheden for hjerte-kar-sygdom er $p=\frac{4}{5}$, så er odds for sygdom
+Odds måler således, hvor mange gange mere sandsynlig en hændelsen er i forhold til komplementærhændelsen. Hvis for eksempel sandsynligheden for hjerte-kar-sygdom er $p=\frac{4}{5}$, så er odds for sygdom
 $$
 	O=\frac{\frac{4}{5}}{\frac{1}{5}} = 4.
 $$
@@ -139,32 +139,36 @@ For at få en lidt bedre fornemmelse for, hvordan odds fungerer, kan vi lave en 
 | :---:       | :----:   |   :----:   |   :---:       | :---:       |    :----:   |   :---:       |:---:       |
 | $O$     |   $\frac{1}{4}$   |  $\frac{1}{3}$   | $\frac{1}{2}$  | 1    |  2     |  3     |4   |
 
+**ME: Læg mærke til at jo større $p$ bliver desto større bliver odds $O$ også.**
 
 Funktionen, der omdanner sandsynligheder til odds, har forskriften
 $$
 O(p) = \frac{p}{1-p}.
 $$
 Definitionsmængden for $f$ er $]0,1[$. Grafen for $f$ er vist på @fig-odds.
-
+**ME: Funktionen hedder vel $O$ og ikke $f$?**
 ```{r echo=FALSE}
-#| fig-cap: Grafen for odds-funktionen
+#| fig-cap: Grafen for odds-funktionen.
 #| label: fig-odds
 O<-function(x){x/(1-x)}
 plot((1:100)/100, O((1:100)/100), type="l",xlim=c(0,1),ylim=c(0,10),xlab="p",ylab="O(p)",xaxt="n")
 axis(1,at=c(75,100,125,150,175,200,225,250,275,300) )
 ```
 
+**ME: Kommentar om at $O$ er voksende? Måske opgave hvor man kan vise at $O'>0$? **
 Vi ser, at $O(p)$ altid er positiv, da både tæller og nævner er positive. Når $p$ nærmer sig $0$, nærmer tælleren sig $0$, mens nævneren nærmer sig $1$, så $O(p)$ går mod $0$. Når $p$ nærmer sig $1$, nærmer tælleren sig $1$, og nævneren nærmer sig $0$, så hele brøken $O(p)$ går mod uendelig. Værdimængden for $O$ består derfor af alle de positive reelle tal.
 
-[^2]: Du kender måske begrebet odds fra sportsgambling. Det er dog en anden betydning af ordet, end det vi bruger her. Inden for gambling angiver odds, hvor mange gange man får pengene igen, hvis en bestemt hændelse indtræffer(fx. at et bestemt hold vinder). Gambling odds er naturligvis også udregnet ud fra sandsynligheden for hændelsen, men de er altid justeret for at sikre at bookmakeren vinder i det lange løb.
+[^2]: Du kender måske begrebet odds fra sportsgambling. Det er dog en anden betydning af ordet, end det vi bruger her. Inden for gambling angiver odds, hvor mange gange man får pengene igen, hvis en bestemt hændelse indtræffer(for eksempel at et bestemt hold vinder). Gambling odds er naturligvis også udregnet ud fra sandsynligheden for hændelsen, men de er altid justeret for at sikre, at bookmakeren vinder i det lange løb.
 
 ::: {.callout-note collapse="true" appearance="minimal"}
 
 ## Opgaver
 
+**ME: Skal vi nummerere opgaverne?**
+
 * Lad $p=4/7$. Hvad er de tilhørende odds?
 * Antag at oddsene er $O=3/2$. Hvad er den tilsvarende sandsynlighed?
-* Fodboldholdene AFC og BFC spiller mod hinanden. Der spilles med forlænget spilletid og straffesparkskonkurrence indtil der er fundet en vinder. Det er dobbelt så sandsynligt at AFC vinder som at BFC vinder. Hvad er (de matematiske) odds for at AFC vinder? Hvad er sandsynligheden for at AFC vinder?
+* Fodboldholdene AFC og BFC spiller mod hinanden. Der spilles med forlænget spilletid og straffesparkskonkurrence indtil, der er fundet en vinder. Det er dobbelt så sandsynligt, at AFC vinder som, at BFC vinder. Hvad er (de matematiske) odds for at AFC vinder? Hvad er sandsynligheden for at AFC vinder?
 
 :::
 
@@ -177,16 +181,16 @@ $$
 På @fig-odds-data vises dataeksemplet fra før, men nu har vi oddsene $O(p(x))$ på $y$-aksen.  
 
 ```{r echo=FALSE}
-#| fig-cap: Odds for hjerte-kar-sygdom inden for de forskellige blodtryksintervaller
+#| fig-cap: Odds for hjerte-kar-sygdom inden for de forskellige blodtryksintervaller.
 #| label: fig-odds-data
 plot(c(87.5,112.5,137.5,162.5,187.5,212.5,237.5,262.5,287.5),odds,pch=16,xlab="blodtryk",ylab="odds",xaxt="n")
 axis(1,at=c(75,100,125,150,175,200,225,250,275,300) )
 ```
 
-Vi ser, at oddsene for sygdom stiger med blodtrykket. Kigger vi på grafen, ser tendensen ikke lineær ud. Det kunne derimod ligne en eksponentiel vækst. For at bekræfte dette, laver vi samme plot på @fig-lnodds, men nu med den naturlige logaritme til oddsene $\ln (O(p(x)))$ på $y$-aksen.
+Vi ser, at oddsene for sygdom stiger med blodtrykket. **ME: Det betyder derfor også at sandsynligheden for sygdom stgier med blodtrykket ** Kigger vi på grafen, ser tendensen ikke lineær ud. Det kunne derimod ligne en eksponentiel vækst. For at bekræfte dette, laver vi samme plot på @fig-lnodds, men nu med den naturlige logaritme til oddsene $\ln (O(p(x)))$ på $y$-aksen. **ME: Fodnote om at hvis $y$ afhænger eksponentielt af $x$, så vil $\ln(y)$ afhænge lineært af $x$. **
 
 ```{r echo=FALSE}
-#| fig-cap: Den naturlige logaritme til odds for hjerte-kar-sygdom inden for de forskellige blodtryksintervaller
+#| fig-cap: Den naturlige logaritme til odds for hjerte-kar-sygdom inden for de forskellige blodtryksintervaller.
 #| label: fig-lnodds
 plot(c(87.5,112.5,137.5,162.5,187.5,212.5,237.5,262.5,287.5),log(odds),pch=16,xlab="blodtryk",ylab="ln(odds)",xaxt="n")
 axis(1,at=c(75,100,125,150,175,200,225,250,275,300) )
@@ -202,15 +206,22 @@ Virkelige data følger ofte en logistisk regressionsmodel.
 ::: {.callout-note collapse="true" appearance="minimal"}
 
 ## Opgaver
+**ME: Ændret i opstilling :) **
+I denne opgave ser vi på sandsynligheden $p(x)$ for at lide af forhøjet blodtryk[^17]  som funktion af kolestreroltallet $x$.**Opgaverne kan ikke foldes ind pga. fodnoten...** Vi kigger derfor på datasættet i @tbl-kolesterol, som er en udvalgt del af et virkeligt datasæt.**Kan man lave litteraturhenvisninger?** I tabellen angiver $y=1$ forhøjet blodtryk, mens $y=0$ angiver normalt blodtryk.   
 
-* I denne opgave ser vi på sandsynligheden $p(x)$ for at lide af forhøjet blodtryk[^17]  som funktion af kolestreroltallet $x$.**Opgaverne kan ikke foldes ind pga. fodnoten...** Vi kigger derfor på datasættet i @tbl-kolesterol, som er en udvalgt del af et virkeligt datasæt.**Kan man lave litteraturhenvisninger?** I tabellen angiver $y=1$ forhøjet blodtryk, mens $y=0$ angiver normalt blodtryk.   Lav en tabel, hvor du beregner sandsynligheden for forhøjet blodtryk, odds og ln(odds) inden for hvert interval. Indtegn punkter i et koordinatsystem, hvor $x$-værdien er midtpunkterne for intervallerne og $y$-værdien er de tilhørende odds. Tegn samhørende værdier af $x$ og ln(odds) ind i et koordinatsystem. Ser sammenhængen lineær ud? Vil det give mening at bruge en logistisk regression?
+* Lav en tabel, hvor du beregner sandsynligheden for forhøjet blodtryk, odds og ln(odds) inden for hvert interval. 
+* Indtegn punkter i et koordinatsystem, hvor $x$-værdien er midtpunkterne for intervallerne, og $y$-værdien er de tilhørende odds. **ME: Er det ikke det samme -> ** Tegn samhørende værdier af $x$ og ln(odds) ind i et koordinatsystem. 
+* Ser sammenhængen lineær ud? 
+* Vil det give mening at bruge en logistisk regression?
 
 |  x | ]100,150] | ]150,200] | ]200,250] | ]250,300] | ]300,350] | ]350,400] | ]400,450] |
  |    :----:   | :----:   | :----:   | :----:   | :----:   | :----:   | :----:   | :----:   | 
 | y=0 |      27   |    693    |   1354   |    716    |    156   |     20    |    2   |     
 |  y=1   |   6    |    202   |     571    |   471   |    132  |     23   |    5    |   
 
-: Tabel over syge og raske inden for forskellige intervaller af kolesteroltal {#tbl-kolesterol}
+: Tabel over syge og raske inden for forskellige intervaller af kolesteroltal. {#tbl-kolesterol}
+
+** ME: Måske vi skal droppe tabelteksten? **
 
 [^17]: Forhøjet blodtryk er defineret som systolisk blodtryk højere end 140mmHg eller diastolisk blodtryk højere end 90mmHg.
 
@@ -228,7 +239,7 @@ $$
 Definitionsmængden for $\text{logit}$-funktionen er ligesom for oddsene $]0,1[$. Vi fandt tidligere, at værdimængden for oddsene består af alle de positive reelle tal. Dette er netop definitionsmængden for $\ln$. Værdimængden for $\text{logit}$ bliver derfor den samme som for $\ln$, nemlig alle de reelle tal. Grafen for $\text{logit}$ er vist på @fig-logit.
 
 ```{r echo=FALSE}
-#| fig-cap: Grafen for logit-funktionen
+#| fig-cap: Grafen for logit-funktionen.
 #| label: fig-logit
 O<-function(x){log(x/(1-x))}
 plot((1:100)/100, O((1:100)/100), type="l",xlim=c(0,1),ylim=c(-5,5),xlab="p",ylab="logit")
@@ -246,11 +257,12 @@ Vi skal så isolere $p$ for at udtrykke $p$ som funktion af $y$. Vi tager først
 $$
 e^y =  \frac{p}{1-p}. 
 $$
+**ME: Punktum efter udtryk (ved godt at det er korrekt) **
 Så ganger vi med $(1-p)$ på begge sider. Det giver
 $$
 e^y(1-p) =p.
 $$
-Hvis parentesen ophæves får vi
+Hvis parentesen ophæves, får vi
 $$e^y - p\cdot e^y =p.$$
 
 Vi kan så lægge $p\cdot e^y$ til på begge sider og sætte $p$ uden for parantes. Det giver
@@ -280,7 +292,7 @@ O<-function(x){exp(x)/(1+exp(x))}
 plot((-100:100)/10, O((-100:100)/10), type="l",xlim=c(-10,10),ylim=c(0,1),xlab="y",ylab="f(y)")
 ```
 
-Bruger vi den inverse til $\text{logit}$ på begge sider af lighedstegnet i den logistiske regressionsmodel i Ligning (@eq-logit_model), får vi isoleret $p(x)$
+Bruger vi den inverse til $\text{logit}$ på begge sider af lighedstegnet i den logistiske regressionsmodel i (@eq-logit_model), får vi isoleret $p(x)$
 $$
 p(x) = \frac{1}{1+e^{-(ax+b)}}.
 $${#eq-p-logistisk}
@@ -296,6 +308,7 @@ $$
 f(ax+b)= \frac{1}{1+e^{-(ax+b)}}.
 $$
 Sammenlignet med den standard logistiske funktion får man altså en $S$-formet kurve, der vokser $a$ gange så hurtigt og er forskudt med $\frac{-b}{a}$. Fx får man for $a=2$ og $b=-5$:
+** ME: $b$ er sat til $-0.5$ i stedet for $-5$ nedenfor. **
 ```{r echo=FALSE}
 a=2
 b=-0.5
@@ -331,11 +344,11 @@ Forholdet mellem oddsene afhænger altså kun af forskellen $x_1 - x_2$ mellem d
 
 ## Opgaver
 
-* Grafen for den generelle logitiske funktion er stejlest når funktionsværdien er $f(x)=1/2$. Hvilken værdi af $x$ svarer til en funktionsværdi på $1/2$ ($x$ kan udtrykkes ved hjælp af $a$ og $b$).
+* Grafen for den generelle logitiske funktion er stejlest **ME: Indsætte funktionsforskrift for $f$ her? **, når funktionsværdien er $f(x)=1/2$. Hvilken værdi af $x$ svarer til en funktionsværdi på $1/2$ ($x$ kan udtrykkes ved hjælp af $a$ og $b$).
 
 * I et (fiktivt) dataeksempel ser vi på sandsynligheden $p(x)$ for, at en kunde i et supermarked vælger at købe den økologiske mælk frem for den konventionelle som funktion af kundens årlige indtægt $x$ (i 100.000 kr). Vi kommer frem til følgende logistiske regressionsmodel
 $$\text{logit}(p(x))= -1.3+0.5x. $$
-Tgen grafen for $p(x)$. Hvor mange procent stiger odds for at vælge økologisk når årsindtægten stiger med 100.000kr?
+Tegn grafen for $p(x)$. Hvor mange procent stiger odds for at vælge økologisk, når årsindtægten stiger med 100.000kr?
 
 :::
 
@@ -352,7 +365,7 @@ Ved at se på @fig-lnodds kunne man fristes til at benytte lineær regression ti
 I stedet benytter man som regel *maksimum likelihood metoden*, som er en teknik, der stammer fra statistikken. Kort fortalt er idéen at vælge de værdier af $a$ og $b$, der gør vores data så *sandsynligt* som muligt. 
 
 Lad os kalde punkterne i vores datasæt $(x_i,y_i)$, hvor $i=1,\ldots,n$ er en nummerering af datapunkterne. Her angiver  $x_i$ altså blodtrykket hos den $i$'te person, og $y_i$ er en variabel, der antager værdien $1$ hvis $i$'te person har hjerte-kar-sygdom og er $0$ ellers.
-For hvert par $(x_i,y_i)$ kan vi nu forsøge at beregne sandsynligheden $p_i$ for at $i$'te person faktisk har den sygsomsstatus $y_i$ som vi observerer. Hvis den $i$'te person er syg, dvs. $y_i=1$, er $p_i$ altså sandsynligheden for at være syg når blodtrykket er $x_i$, så
+For hvert par $(x_i,y_i)$ kan vi nu forsøge at beregne sandsynligheden $p_i$ for at $i$'te person faktisk har den sygsomsstatus $y_i$, som vi observerer. Hvis den $i$'te person er syg, dvs. $y_i=1$, er $p_i$ altså sandsynligheden for at være syg, når blodtrykket er $x_i$, så
 $$
 p_i= p(x_i)  = \frac{ 1}{1 + e^{-(ax_i  + b)}}.
 $${#eq-y1}
@@ -378,14 +391,14 @@ $$
 	P(A\cap B) = P(A)\cdot P(B).
 $$
 
-Uafhængighed af $n$ hændelser $A_1,\ldots,A_n$ betyder tilsvarende, at sandsynligheden for at alle $n$ hændelser indtræffer på samme tid $A_1 \cap A_2 \cap \dotsm \cap A_n$ kan findes som et produkt af sandsynlighederne for de enkelte hændelser[^3]
+Uafhængighed af $n$ hændelser $A_1,\ldots,A_n$ betyder tilsvarende, at sandsynligheden for, at alle $n$ hændelser indtræffer på samme tid $A_1 \cap A_2 \cap \dotsm \cap A_n$, kan findes som et produkt af sandsynlighederne for de enkelte hændelser[^3]
 $$
 	P(A_1 \cap A_2 \cap \dotsm \cap A_n) = P(A_1)\cdot P(A_2) \cdot \dotsm \cdot P(A_n).
 $$
 
 [^3]: Desuden skal der gælde, at hver gang vi udtager $m$ ud af de $n$ hændelser, skal sandsynligheden for, at de $m$ hændelser indtræffer samtidig, kunne findes ved en tilsvarende produktformel, men dette skal vi ikke bruge  i det følgende.
 
-Vi vender nu tilbage til vores data og lader $A_1$ være hændelsen at første patient har sygdomsstatus $y_1$, $A_2$ være hændelsen at anden patient har sygdomsstatus $y_2$ osv. Bemærk at $P(A_i)$ er det samme som det vi tidligere kaldte $p_i(a,b)$.
+Vi vender nu tilbage til vores data og lader $A_1$ være hændelsen at første patient har sygdomsstatus $y_1$, $A_2$ være hændelsen at anden patient har sygdomsstatus $y_2$ og så videre. Bemærk, at $P(A_i)$ er det samme, som det vi tidligere kaldte $p_i(a,b)$.
 Hændelsen at vi observerer $y_1,\ldots,y_n$ på samme tid, er fælleshændelsen $A_1 \cap A_2 \cap \dotsm \cap A_n$.  Da vi antog, at de $n$ personer er udvalgt uafhængigt af hinanden, kan vi  bruge produktformlen:
 $$
 P(A_1 \cap A_2 \cap \dotsm \cap A_n) = P(A_1) \cdot \dotsm \cdot P(A_n) = p_1(a,b) \cdot p_2(a,b)\cdot \dotsm \cdot p_n(a,b).
@@ -394,7 +407,7 @@ Bemærk, at sandsynligheden for vores udfald $y_1,\ldots,y_n$ afhænger af $a$ o
 $$
 L(a,b) = p_1(a,b) \cdot p_2(a,b)\cdot \dotsm \cdot p_n(a,b).
 $$
-Denne funktion kaldes *likelihoodfunktionen*. Idéen med maksimum likelihood metoden er at vælge de værdier af $a$ og $b$, der gør sandsynligheden $L(a,b)$ for det vi har observeret så stor som muligt. Vi søger altså de $a$ og $b$, der maksimerer funktionen $L(a,b)$. Dette maksimum kan ikke udregnes eksakt. I stedet kan man bruge numeriske metoder, fx gradient descent, som I kan læse mere om her **link til note**. Man kan også forsøge at finde kritiske punkter, altså punkter, hvor de partielt afledte er nul, ved hjælp af numeriske metoder. **Overvej hvad vi vil gøre her. Vi kan også droppe det og bare bruge Excel?**
+Denne funktion kaldes *likelihoodfunktionen*. Idéen med maksimum likelihood metoden er at vælge de værdier af $a$ og $b$, der gør sandsynligheden $L(a,b)$ for det, vi har observeret så stor som mulig. Vi søger altså de $a$ og $b$, der maksimerer funktionen $L(a,b)$. Dette maksimum kan ikke udregnes eksakt. I stedet kan man bruge numeriske metoder, for eksempel gradient nedstigning, som I kan læse mere om [her](../retningsafledede/retningsafledede.qmd) **ME: Link virker først når siden er flyttet over på hjemmesiden**. Man kan også forsøge at finde kritiske punkter, altså punkter, hvor de partielt afledte er nul, ved hjælp af numeriske metoder. **Overvej hvad vi vil gøre her. Vi kan også droppe det og bare bruge Excel?**
  
 Finder man $a$ og $b$ ved hjælp af maksimum likelihood metoden i vores dataeksempel, fås følgende funktionsudtryk for sandsynlighederne og oddsene
 $$
@@ -431,7 +444,9 @@ Dette udtryk kan man nemt selv udregne og maksimere ved hjælp af Excel.
 For at finde estimater for $a$ og $b$ ved hjælp af Excel, skal man først og fremmest sørge for, at man har aktiveret problemløser-værktøjet. Det gøres på følgende måde:
 Gå op under filer og vælg **indstillinger**. Derefter vælges **tilføjelsesprogrammer**. Nederst kan man vælge **Excel-tilføjelsesprogrammer** og trykke **udfør**. Til sidst kan man vælge tilføjelsesprogrammet **problemløser** fra en liste.
 
-![Illustration af Excel ark til bestemmelse af a og b samt brug af problemløser](images/excellogregbil.png)
+**ME: Lidt utydeligt billede. **
+
+![Illustration af Excel ark til bestemmelse af a og b samt brug af problemløser.](images/excellogregbil.png)
 
 På billedet ses, hvordan man kan lave et lille regneark til at beregne de relevante størrelser. Der er lavet et par celler til de ukendte parametre $a$ og $b$, som bare kan sættes til 0 fra starten. Det oprindelige datasæt indsættes i søjlerne $x_i$ og $y_i$. I de næste søjler beregnes odds, $p(x_i)$ og $\ln(p_i)$ med formlerne
 \begin{align*}
@@ -442,7 +457,7 @@ p(x_i) &= \frac{e^{ax_i + b}}{1+e^{ax_i +b}} = \frac{odds}{1+odds}\\
 Her er det vigtigt, at cellerne, der indeholder værdien af $a$ og $b$, benyttes når oddsene beregnes (det vil være smart med fastlåsning af referencerne, hvor man har \$ foran både tal og bogstav ved reference). 
 Til sidst finder man $l(a,b)$ i det blå felt ved at beregne summen af alle $\ln(p_i)$, som i formlen (@eq-lab). 
 
-Nu mangler man bare at benytte problemløseren til at finde de værdier af $a$ og $b$, der gør værdien i det blå felt maksimal. På billedet er der vist med rød, hvor man finder problemløseren og hvad der skal justeres. **Målsætningen** er den blå celle der indeholder summen. **Variabelcellerne** er de to, der indeholder $a$ og $b$. Sørg for ikke at sætte flueben i boksen "Gør variabler uden begrænsninger ikke-negative". Tryk på **løs**.
+Nu mangler man bare at benytte problemløseren til at finde de værdier af $a$ og $b$, der gør værdien i det blå felt maksimal. På billedet er der vist med rød, hvor man finder problemløseren, og hvad der skal justeres. **Målsætningen** er den blå celle, der indeholder summen. **Variabelcellerne** er de to, der indeholder $a$ og $b$. Sørg for ikke at sætte flueben i boksen "Gør variabler uden begrænsninger ikke-negative". Tryk på **løs**.
 
 
 ::: {.callout-note collapse="true" appearance="minimal"}
@@ -459,7 +474,7 @@ Nu mangler man bare at benytte problemløseren til at finde de værdier af $a$ o
 
 
 * En nyhedshjemmeside ønsker at målrette en biografreklame til brugerne. De har derfor registreret om 10 af hjemmesidens brugere har klikket på reklamen  ($y=1$ hvis de har klikket, $y=0$ ellers) og hvor mange gange $x$, de har læst kulturnyheder den sidste måned. Datasættet er givet i nedenstående tabel. Firmaet bag hjemmesiden ønsker at modellere sandsynligheden $p(x)$ for at klikke på reklamen som funktion af $x$, så de kan målrette reklamen mod de brugere, der har størst sandsynlighed for at klikke på den. 
-Brug Excel til at finde $a$ og $b$. Tegn grafen for $p(x)$. Skal firmaet vælge at vise reklamen til brugere der ofte eller sjældent læser kulturnyheder?
+Brug Excel til at finde $a$ og $b$. Tegn grafen for $p(x)$. Skal firmaet vælge at vise reklamen til brugere, der ofte eller sjældent læser kulturnyheder?
 
 |  x | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
  |    :----:   | :----:   | :----:   | :----:   |    :----:   | :----:   | :----:   | :----:   |:----:   | :----:   |:----:   |
@@ -485,7 +500,7 @@ Vi finder derfor først et mere eksplicit udtryk for $l(a,b)$ som funktion af $a
 
 
 ### Eksplicit udtryk for l(a,b)
-Ved at ophæve parentesen $(1-y_i)$ i @eq-lab fås
+Ved at ophæve parentesen $(1-y_i)$ i (@eq-lab) fås
 $$ l(a,b)=\sum_{i=1}^n \big({y_i}\cdot \ln(p(x_i))+\ln(1-p(x_i))- y_i\cdot \ln(1-p(x_i))\big).$$
 I to af leddene inden for sumtegnet har vi $y_i$ som en faktor. Vi kan derfor sætte $y_i$ uden for parentes
 $$ l(a,b)=\sum_{i=1}^n \big(\ln(1-p(x_i))+{y_i}\cdot (\ln(p(x_i))-\ln(1-p(x_i)))\big).$$
@@ -496,7 +511,7 @@ $$ l(a,b)=\sum_{i=1}^n \ln(1-p(x_i))+\sum_{i=1}^n y_i\cdot \ln\left(\frac{p(x_i)
 Nu har vi fået styr på udtrykket for $l(a,b)$, som dog afhænger af $p(x_i)$. Vi udnytter nu, at vi havde udtrykket $$p(x_i) = \frac{1}{1+e^{-(a\cdot x_i+b)}}$$
 og
 $$\ln\left(\frac{p(x_i)}{1-p(x_i)}\right)=ax_i + b.$$
-Indsættes dette i @eq-lab2, får vi
+Indsættes dette i (@eq-lab2), får vi
 $$l(a,b)=\sum_{i=1}^n \ln\left(1-\frac{1}{1+e^{-(a\cdot x_i+b)}}\right)+\sum_{i=1}^n y_i\cdot (ax_i+b).$$
 Udtrykket i logaritmen sættes på fælles brøkstreg, og brøken forlænges med $e^{a\cdot x_i+b}$
 $$ l(a,b)=\sum_{i=1}^n \ln\left(\frac{e^{-(a\cdot x_i+b)}}{1+e^{-(a\cdot x_i+b)}}\right)+\sum_{i=1}^n y_i\cdot (ax_i+b)=\sum_{i=1}^n \ln\left(\frac{1}{1+e^{a\cdot x_i+b}}\right)+\sum_{i=1}^n y_i\cdot (ax_i+b).$$
@@ -509,7 +524,7 @@ $${#eq-l-simpel}
 
 
 ### Partielt afledede
-Vi finder nu de partielt afledte af $l(a,b)$ ved at differentiere @eq-l-simpel.
+Vi finder nu de partielt afledte af $l(a,b)$ ved at differentiere (@eq-l-simpel).
 Lad os først se på $\frac{\partial l(a,b)}{\partial b}$. Vi husker på, at $l(a,b)$ var givet ved 
 $$
 l(a,b)=\sum_{i=1}^n \big(-\ln(1+e^{a\cdot x_i+b})\big)+\sum_{i=1}^n y_i\cdot (ax_i+b).
@@ -518,32 +533,33 @@ I den første sum skal vi se hvert led som en sammensat funktion, hvor den indre
 $$\frac{\partial l(a,b)}{\partial b}= \sum_{i=1}^n -\frac{1}{1+e^{a\cdot x_i+b}}\cdot (0+e^{a\cdot x_i+b})\cdot(0+1) +\sum_{i=1}^n y_i\cdot (0+1).$$
 Ved at reducere fås
 $$\frac{\partial l(a,b)}{\partial b}= \sum_{i=1}^n -\frac{e^{a\cdot x_i+b}}{1+e^{a\cdot x_i+b}} +\sum_{i=1}^n y_i$$
-Ved at bruge ligning @eq-p-logistisk i forbindelse med den første sum og efterfølgende samle leddene i en sum, fås
+Ved at bruge (@eq-p-logistisk) i forbindelse med den første sum og efterfølgende samle leddene i en sum, fås
 $$\frac{\partial l(a,b)}{\partial b}= \sum_{i=1}^n -p(x_i) +\sum_{i=1}^n y_i=\sum_{i=1}^n (y_i-p(x_i)).$$
 
 Nu ser vi på $\frac{\partial l(a,b)}{\partial a}$ på tilsvarende måde.
 $$\frac{\partial l(a,b)}{\partial a}= \sum_{i=1}^n -\frac{1}{1+e^{a\cdot x_i+b}}\cdot (0+e^{a\cdot x_i+b})\cdot(1\cdot x_i+0) +\sum_{i=1}^n y_i\cdot (1\cdot x_i+0)$$
 Der reduceres
 $$\frac{\partial l(a,b)}{\partial a}= \sum_{i=1}^n -\frac{e^{a\cdot x_i+b}}{1+e^{a\cdot x_i+b}}\cdot x_i +\sum_{i=1}^n y_i\cdot x_i.$$
-Igen bruges ligning @eq-p-logistisk til at få
+Igen bruges (@eq-p-logistisk) til at få
 $$\frac{\partial l(a,b)}{\partial a}= \sum_{i=1}^n -p(x_i)\cdot x_i +\sum_{i=1}^n y_i\cdot x_i=\sum_{i=1}^n (y_i\cdot x_i-p(x_i)\cdot x_i).$$
 
 Endelig kan $x_i$ sættes udenfor parentes, hvorved vi har
 $$\frac{\partial l(a,b)}{\partial a}=\sum_{i=1}^n (y_i-p(x_i))\cdot x_i.$$
 
-For at lave optimering og finde maksimum, skal vi finde undersøge, hvornår de partielt afledte er nul. Vi skal således løse følgende to ligninger med to ubekendte
+For at lave optimering og finde maksimum, skal vi undersøger, hvornår de partielt afledte er nul. Vi skal således løse følgende to ligninger med to ubekendte
 \begin{align*}
 0=\frac{\partial l(a,b)}{\partial a}=\sum_{i=0}^n (y_i-p(x_i))\cdot x_i \quad \text{og} \quad 0=\frac{\partial l(a,b)}{\partial b}=\sum_{i=1}^n (y_i-p(x_i)) .
 \end{align*}
+** ME: Jeg ville skriv $=0$ til sidst...**
 Dette ligningssystem er dog ikke bare lige til at løse, så her bliver man nødt til at benytte sig af  numeriske metoder til løsning af ligningssytemer.
 
 :::
 
 
 ## Multipel logistisk regression
-I praksis er der selvfølgelig flere faktorer end blodtryk, der afgør ens risiko for hjerte-kar-sygdom. Fx stiger risikoen med alderen, ligesom rygning øger risikoen. Vi kan opstille en model, der inddrager alle tre variable på en gang. Lader vi $x_1$ betegne blodtryk, $x_2$ betegne alder, og $x_3$ betegne antal cigaretter, man ryger pr. dag, kan man lave en model, hvor  logaritmen til oddsene afhænger af alle tre variable. 
+I praksis er der selvfølgelig flere faktorer end blodtryk, der afgør ens risiko for hjerte-kar-sygdom. For eksempel stiger risikoen med alderen, ligesom rygning øger risikoen. Vi kan opstille en model, der inddrager alle tre variable på en gang. Lader vi $x_1$ betegne blodtryk, $x_2$ betegne alder, og $x_3$ betegne antal cigaretter, man ryger pr. dag, kan vi lave en model, hvor  logaritmen til oddsene afhænger af alle tre variable:
 $$
-	\ln O(x_1,x_2,x_3) = a_1x_1 + a_2x_2 +a_3x_3 + b.
+	\ln \left ( O(x_1,x_2,x_3)  \right) = a_1x_1 + a_2x_2 +a_3x_3 + b.
 $$
 Nu er der fire ukendte konstanter $a_1$, $a_2$, $a_3$ og $b$ i modellen, som skal bestemmes ud fra data. Dette kaldes *den multiple regressionsmodel*.
 Ved at tage eksponentialfunktionen får vi en formel for oddsene
@@ -601,6 +617,8 @@ Forestil dig nu, at vi får en ny patient med alderen $x_1$ og blodtrykket $x_2$
 - Hvis $p(x_1,x_2,x_3)>1/2$: Patienten er syg.
 - Hvis $p(x_1,x_2,x_3)\leq 1/2$: Patienten er rask.
 
+** ME: Skrives med gaffelforskrift som tidligere? **
+
 Lad os for eksempel sige, at vores patient er 30 år gammel, har et blodtryk på $145$ mmHg og ryger 7 cigaretter om dagen. Ifølge vores model vil hans risiko for hjerte-kar-sygdom være 
 $$
 	p(30,145,7) = \frac{1}{1+e^{-(0.06\cdot 30 + 0.02\cdot 145 +0.02\cdot 7 -6.77)}}\approx 0.127.
@@ -609,14 +627,14 @@ Hans risiko er på 12.7\%. Hvis vi skal lave en prædiktion, vil vi sige, at han
 
 I praksis kan der være et problem med altid at vælge det mest sandsynlige. Hvis man gerne vil kunne forudsige en meget sjælden sygdom,  vil det ofte være sådan, at $p(x)\leq 1/2$  for alle patienter. Ingen ville blive diagnosticeret med sygdommen på denne måde - og så er prædiktionsalgoritmen jo ikke meget værd. Derfor vælger man ofte  et lavere delepunkt end $p(x)=1/2$. Dermed kommer man til at fejldiagnosticere en hel del patienter. Til gengæld får man fanget flere af dem, der faktisk er syge. **Her kunne man linke til noget om sensitivitet og specificitet i prædiktionssammenhæng**
 
-Her på siden har vi flere eksempler på algoritmer, som vil kunne bruges til at prædiktere om patienter er syge eller raske, fx neurale netværk[^4] og Bayes klassifikation **NOTE:flere?**. 
-Fordelen ved at bruge logistisk regression er, at man ikke bare får en prædiktion, men også en model for, hvordan sandsynligheden $p(x)$ afhænger af variablen $x$. Dermed opnår man en indsigt i, hvordan sammenhængen mellem fx blodtryk og hjerte-kar-sygdom er. Ved hjælp af odds-ratioer kan vi endda sætte tal på, hvordan odds for sygdom ændrer sig, når blodtrykket vokser. Dette er i modsætning til mange andre prædiktionsalgoritmer, der blot giver en prædiktion, uden at brugeren af algoritmen ved, hvor den kommer fra. Inden for medicin er det ofte vigtigt at kende baggrunden for en given prædiktion, så man kan forholde sig kritisk til resultatet og rådgive patienten om, hvordan man sænker  risikoen for sygdom (fx med blodtrykssænkende medicin). Til gengæld har de mere avancerede algoritmer mulighed for at give en mere præcis prædiktion.
+Her på siden har vi flere eksempler på algoritmer, som vil kunne bruges til at prædiktere om patienter er syge eller raske, fx [neurale netværk](../neurale_net/neurale_net.qmd)[^4] og [Bayes klassifikation](../naivbayes/NaivBayes.qmd) **NOTE:flere?**. 
+Fordelen ved at bruge logistisk regression er, at man ikke bare får en prædiktion, men også en model for, hvordan sandsynligheden $p(x)$ afhænger af variablen $x$ **ME: Det gør man vel også med Bayes?**. Dermed opnår man en indsigt i, hvordan sammenhængen mellem for eksempel blodtryk og hjerte-kar-sygdom er. Ved hjælp af odds-ratioer kan vi endda sætte tal på, hvordan odds for sygdom ændrer sig, når blodtrykket vokser. Dette er i modsætning til mange andre prædiktionsalgoritmer, der blot giver en prædiktion, uden at brugeren af algoritmen ved, hvor den kommer fra. Inden for medicin er det ofte vigtigt at kende baggrunden for en given prædiktion, så man kan forholde sig kritisk til resultatet og rådgive patienten om, hvordan man sænker  risikoen for sygdom (for eksempel med blodtrykssænkende medicin). Til gengæld har de mere avancerede algoritmer mulighed for at give en mere præcis prædiktion.
   
-[^4]: Logistisk regression er i øvrigt et meget simpelt eksempel på et neuralt netværk. 
+[^4]: Logistisk regression er i øvrigt et meget simpelt eksempel på et neuralt netværk. ** ME: Hvis man vælge cross entropy tabsfunktionen...?**
 
 ### Andre eksempler på anvendelser
 
-Logistisk regression kan bruges til at modellere meget andet end sygdom. Forestil dig fx en nyhedshjemmeside, der benytter cookies til at målrette reklamer. Hjemmesiden registrerer, hvor mange gange du har læst kulturnyheder $x_1$, og hvor mange gange du har læst sportsnyheder $x_2$ inden for den sidste måned. Desuden registrerer den, om du har klikket på en bestemt reklame for en ny biograffilm. Man kan bruge disse data til at finde en logistisk regressionsmodel for sandsynligheden $p(x_1,x_2)$ for, at en ny bruger klikker på reklamen. Med sådan en model kan man så prædiktere, om en ny bruger vil klikke på reklamen ud fra indsamlet data om brugerens forbrug af sports- og kulturnyheder. Reklamen vil så kun blive vist til brugeren, hvis det prædikteres, at brugeren rent faktisk vil klikke på reklamen. 
+Logistisk regression kan bruges til at modellere meget andet end sygdom. Forestil dig for eksempel en nyhedshjemmeside, der benytter cookies til at målrette reklamer. Hjemmesiden registrerer, hvor mange gange du har læst kulturnyheder $x_1$, og hvor mange gange du har læst sportsnyheder $x_2$ inden for den sidste måned. Desuden registrerer den, om du har klikket på en bestemt reklame for en ny biograffilm. Man kan bruge disse data til at finde en logistisk regressionsmodel for sandsynligheden $p(x_1,x_2)$ for, at en ny bruger klikker på reklamen. Med sådan en model kan man så prædiktere, om en ny bruger vil klikke på reklamen ud fra indsamlet data om brugerens forbrug af sports- og kulturnyheder. Reklamen vil så kun blive vist til brugeren, hvis det prædikteres, at brugeren rent faktisk vil klikke på reklamen. 
 
 Et andet eksempel kunne være en meningsmåling. Et mindre antal vælgere spørges, om de har tænkt sig at stemme på rød eller blå blok. Desuden noteres deres alder $x_1$ og årsindtægt $x_2$. Ud fra dette datasæt laves en model for sandsynligheden  $p(x_1,x_2)$ for at stemme på rød blok som funktion af alder og årsindtægt. Ud fra modellen kan man så prædiktere, hvad resten af befolkningen har tænkt sig at stemme.
 
@@ -624,7 +642,7 @@ Et andet eksempel kunne være en meningsmåling. Et mindre antal vælgere spørg
 
 ## Opgaver
 
-Vi kigger igen på en multipel regressionsmodel for odds $O(x_1,x_2)$ for, at en bruger af en hjemmeside klikker på en given reklame, hvor $x_1$ og $x_2$ er antal gange kunden har læst henholdsvis kulturnyheder of sportsnyheder inden for den sidste måned. Modellen for odds er fundet til
+Vi kigger igen på en multipel regressionsmodel for odds $O(x_1,x_2)$ for, at en bruger af en hjemmeside klikker på en given reklame, hvor $x_1$ og $x_2$ er antal gange kunden har læst henholdsvis kulturnyheder og sportsnyheder inden for den sidste måned. Modellen for odds er fundet til
 $$O(x_1,x_2) = e^{-2+0.5x_1-0.1x_2 }.$$
 Vi vil gerne prædiktere, om en bruger klikker på reklamen, så vi kan beslutte, om det er relevant at vise ham den.
 
@@ -646,7 +664,7 @@ På dag $x$ vil en tilfældigt udvalgt person have en sandsynlighed på  $p(x)=I
 $$p(x)=\frac{I(x)}{M} = \frac{1}{1+e^{-(a\cdot x+b)}}.$$
 Dette genkender vi som en logistisk regressionsmodel for sandsynligheden $p(x)$.
 
-For at bestemme $a$ og $b$, kunne man derfor lave et datasæt, hvor vi hver dag tager en test af en  tilfældig person og ser, om personen er smittet eller rask. Derved får vi et datasæt med punkter $(x,y)$, hvor $x$ er antal dage, og $y$ er $0$ hvis personen er rask eller $1$ hvis personen er smittet. Vi kan nu finde $a$ og $b$ ved at lave logistisk regression på dette datasæt og finde et udtryk for $p(x)$.
+For at bestemme $a$ og $b$, kunne man derfor lave et datasæt, hvor vi hver dag tager en test af en  tilfældig person og ser, om personen er smittet eller rask. Derved får vi et datasæt med punkter $(x,y)$, hvor $x$ er antal dage, og $y$ er $0$ hvis personen er rask, eller $1$ hvis personen er smittet. Vi kan nu finde $a$ og $b$ ved at lave logistisk regression på dette datasæt og finde et udtryk for $p(x)$.
 Hvis vi gerne vil vide, hvor mange der faktisk er syge efter $x$ dage, ganger vi bare sandsynligheden for at være syg op med befolkningstallet
 $$I(x)=M\cdot p(x)=\frac{M}{1+e^{-(a\cdot x+b)}}.$$ 
 Det er dog ikke ved alle eksempler, det er muligt at lave denne kobling mellem de to emner. Logistisk vækst vedrører en udvikling i tid, dvs. $x$-variablen skal angive tid. Desuden skal udviklingen foregå i en population af fast størrelse $M$. 
